@@ -23,11 +23,11 @@ class StudentListAPIView(ListModelMixin, CreateModelMixin, GenericAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
-    def get(self, request):
-        return self.list(request)
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
-    def post(self, request):
-        return self.create(request)
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
     ### end assignment2
 
 
