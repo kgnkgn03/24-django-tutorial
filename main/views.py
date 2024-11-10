@@ -82,6 +82,28 @@ class StudyParticipationListView(
     """
 
     ### assignment3: 이곳에 과제를 작성해주세요
+    permission_classes = [IsAuthenticated]
+    queryset = StudyParticipation.objects.all()
+    serializer_class = StudyParticipationSerializer
+
+
+    def filter_queryset(self, queryset):
+        if self.request.method == "GET":
+            queryset = queryset.filter(user=self.request.user)
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        serializer = StudyParticipationSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        if request.user != serializer.validated_data["user"]:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        else:
+            return self.create(request, *args, **kwargs)
+
     ### end assignment3
 
 
@@ -94,4 +116,18 @@ class StudyParticipationView(
     """
 
     ### assignment3: 이곳에 과제를 작성해주세요
+
+    permission_classes = [IsAuthenticated]
+    queryset = StudyParticipation.objects.all()
+    serializer_class = StudyParticipationSerializer
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        if request.user != instance.user:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        else:
+            return self.destroy(request, *args, **kwargs)
+
     ### end assignment3
