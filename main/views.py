@@ -9,14 +9,15 @@ from rest_framework.mixins import (
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from main.models import Study
+from main.models import Study, StudyParticipation
 from django.contrib.auth import login, authenticate
 from main.serializers import (
     StudySerializer,
     LoginSerializer,
     UserSerializer,
+    StudyParticipationSerializer
 )
-from rest_framework import generics
+from rest_framework import generics, status
 
 
 class LoginView(GenericAPIView):
